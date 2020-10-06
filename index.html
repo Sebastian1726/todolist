@@ -20,13 +20,14 @@
 
       <div class="input-group mb-3">
         <input
+          onkeyup="myfunction(event)"
           type="text"
           class="form-control"
           placeholder="Put your new task name heare"
           id="inputTask"
         />
         <div class="input-group-append">
-          <button class="btn btn-primary" type="button" onclick="createTask()">
+          <button class="btn btn-primary" type="button" onclick="createTask()" >
             Create
           </button>
         </div>

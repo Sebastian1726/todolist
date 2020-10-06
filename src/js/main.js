@@ -41,6 +41,19 @@ function createTask(task) {
   paintList(list);
 }
 
+function myfunction(event){
+  if (event.key === "Enter") {
+    const input = document.querySelector("#inputTask");
+    list.push({
+      id: list.length + 1,
+      name: input.value,
+      done: false,
+    });
+  input.value = "";
+  paintList(list);
+  }
+}
+
 const checkTask = (checkbox, id) => {
   const task = list.find((element) => {
     return element.id === id;
