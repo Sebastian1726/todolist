@@ -33,8 +33,10 @@ const listContainer = document.querySelector("#list-todo");
 const listDoneContainer = document.querySelector("#list-done");
 
 paintAll();
+paintCounterTodo();
+paintCounterDone();
 
-function createTask(task) {
+function createTask() {
   const input = document.querySelector("#inputTask");
   list.push({
     id: list.length + 1,
@@ -42,7 +44,8 @@ function createTask(task) {
     done: false,
   });
   input.value = "";
-  paintList(list);
+  paintList(list, listContainer);
+  paintCounterTodo();
 }
 
 const checkTask = (checkbox, id) => {
@@ -57,7 +60,19 @@ const checkTask = (checkbox, id) => {
   destinyList.push(task);
   task.done = checkbox.checked;
   paintAll();
+  paintCounterTodo();
+  paintCounterDone();
 };
+
+function paintCounterTodo(){
+  const counterTodo = document.querySelector("#counter-todo");
+  counterTodo.innerHTML = list.length;
+}
+
+function paintCounterDone(){
+  const counterDone = document.querySelector("#counter-done");
+  counterDone.innerHTML = done.length;
+}
 
 function paintAll() {
   paintTodo();
