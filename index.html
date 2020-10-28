@@ -12,11 +12,18 @@
       integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
       crossorigin="anonymous"
     />
+
     <link href="./src/style/main.css" rel="stylesheet" />
+
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+
+
   </head>
   <body>
-    <div class="container">
-      <h1>What do I need to do today</h1>
+    <div class="container" id="todo-app">
+      <h1>{{title}}</h1>
 
       <div class="input-group mb-3">
         <input
@@ -24,9 +31,11 @@
           class="form-control"
           placeholder="Put your new task name heare"
           id="inputTask"
+          v-model="newTaskName"
+          @keyup.enter="createTask"
         />
         <div class="input-group-append">
-          <button class="btn btn-primary" type="button" onclick="createTask()">
+          <button class="btn btn-primary" type="button" @click="createTask">
             Create
           </button>
         </div>
@@ -35,13 +44,24 @@
       <div class="todolist row">
         <div class="col">
           <h2>Todo</h2>
-          <p id="counter-todo"></p>
-          <ul class="list-group mylist" id="list-todo"></ul>
+          <ul class="list-group mylist" id="list-todo">
+
+            <li v-for="task in todoList" class="list-group-item list-item" :class="{'is-done' : task.done}">
+                <input type="checkbox" v-model="task.done" aria-label="Checkbox for following text input" > {{task.name}}
+            </li>
+
+          </ul>
         </div>
         <div class="col">
           <h2>Done</h2>
           <p id="counter-done"></p>
-          <ul class="list-group mylist" id="list-done"></ul>
+          <ul class="list-group mylist" id="list-done">
+
+           <li v-for="task in doneList" class="list-group-item list-item" :class="{'is-done' : task.done}">
+              <input type="checkbox" v-model="task.done" aria-label="Checkbox for following text input" > {{task.name}}
+          </li>
+
+          </ul>
         </div>
       </div>
     </div>

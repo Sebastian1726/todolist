@@ -29,76 +29,46 @@ let done = [
   },
 ];
 
-const listContainer = document.querySelector("#list-todo");
-const listDoneContainer = document.querySelector("#list-done");
+let listContainer;
+let listDoneContainer;
 
-paintAll();
-paintCounterTodo();
-paintCounterDone();
-
-function createTask() {
-  const input = document.querySelector("#inputTask");
-  list.push({
-    id: list.length + 1,
-    name: input.value,
-    done: false,
-  });
-  input.value = "";
-  paintList(list, listContainer);
-  paintCounterTodo();
+let options = {
+  group: 'todolist',
+  animation: 100,
+  onAdd: function(data){
+    if(data.to.id === 'list-done'){
+      console.log("done");
+    }else{
+      console.log("not done");
+    }
+  }
 }
 
-const checkTask = (checkbox, id) => {
-  const isChecked = checkbox.checked;
-  const originList = isChecked ? list : done;
-  const destinyList = isChecked ? done : list;
-
-  const taskIndex = originList.findIndex((element) => {
-    return element.id === id;
-  });
-  const task = originList.splice(taskIndex, 1)[0];
-  destinyList.push(task);
-  task.done = checkbox.checked;
-  paintAll();
-  paintCounterTodo();
-  paintCounterDone();
-};
-
-function paintCounterTodo(){
-  const counterTodo = document.querySelector("#counter-todo");
-  counterTodo.innerHTML = list.length;
-}
-
-function paintCounterDone(){
-  const counterDone = document.querySelector("#counter-done");
-  counterDone.innerHTML = done.length;
-}
-
-function paintAll() {
-  paintTodo();
-  paintDone();
-}
-
-function paintTodo() {
-  paintList(list, listContainer);
-}
-
-function paintDone() {
-  paintList(done, listDoneContainer);
-}
-
-function paintList(lst, domContainer) {
-  let res = "";
-  lst.forEach((element) => {
-    res += renderListItem(element);
-  });
-  domContainer.innerHTML = res;
-}
-
-function renderListItem(item) {
-  const isDone = item.done ? "is-done" : "";
-  const checked = item.done ? "checked" : "";
-  return `<li class="list-group-item list-item ${isDone}">
-              <input type="checkbox" ${checked} aria-label="Checkbox for following text input" onclick="checkTask(this, ${item.id})"> ${item.name}
-          </li>`;
-}
+window.addEventListener('load', function(){
+  var app = new Vue({
+    el: '#todo-app',
+    data: {
+      title: 'What do I need to do today!',
+      list: list,
+      newTaskName: ''
+    },
+    computed: {
+      todoList(){
+        return this.list.filter((task) => !task.done);
+      },
+      doneList(){
+        return this.list.filter((task) => task.done);
+      }
+    },
+    methods: {
+      createTask(){
+        this.list.push({
+          id: list.length + 1,
+          name: this.newTaskName,
+          done: false,
+        });
+        this.newTaskName = ''
+      }
+    }
+  })
+});
